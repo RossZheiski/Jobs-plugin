@@ -79,6 +79,7 @@ function ENT:Use(act)
 		
 		local trace = act:GetEyeTraceNoCursor()
 		local char = act:getChar();
+		
 		local items = char:getInv():getItemsOfType(self.repairItem)
 
 		if trace.Entity != self then 
