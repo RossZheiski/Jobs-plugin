@@ -31,11 +31,6 @@ function PANEL:Populate()
 
 		self.CloseButton = self.title:Add("TaxiCloseButton")
 
-		self.tasksList = self:Add("CompScroll")
-		self.tasksList:Dock(TOP)
-		self.tasksList:SetTall(sh * 0.4)
-		self.tasksList:DockMargin(sw * 0.01, sh * 0, sw * 0.01, sh * 0)
-
 		self:ReloadCalls()
 
 		self.dataBG = self:Add("DPanel")
@@ -57,9 +52,14 @@ function PANEL:Paint( w, h )
 end;
 
 function PANEL:ReloadCalls()
+		if self.tasksList then self.tasksList:Remove() end;
 		if self.taskGrid then self.taskGrid:Remove() end;
 
-		PrintTable(TAXI_DATA)
+		self.tasksList = self:Add("CompScroll")
+		self.tasksList:Dock(TOP)
+		self.tasksList:SetTall(sh * 0.4)
+		self.tasksList:DockMargin(sw * 0.01, sh * 0, sw * 0.01, sh * 0)
+
 		local i = #TAXI_DATA.jobs;
 
 		if i == 0 then

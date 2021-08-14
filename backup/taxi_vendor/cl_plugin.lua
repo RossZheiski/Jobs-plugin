@@ -13,7 +13,8 @@ netstream.Hook('taxi::openInterface', function()
 		TINT:Populate()
 end);
 netstream.Hook('taxi:dismiss', function()
-		Derma_Query("Do you really want to dismiss?", "Dismiss", "Yes", function()
+		local HaveOrder = LocalPlayer():TaxiTakenOrder() && "If you'll dismiss - you will be fined because you have an active order." || ""
+		Derma_Query("Do you really want to dismiss?" .. " " .. HaveOrder, "Dismiss", "Yes", function()
 				netstream.Start('taxi::dissmissal')
 		end,
 		"No", function() end)

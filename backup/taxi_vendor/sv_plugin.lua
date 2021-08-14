@@ -6,6 +6,7 @@ function PLUGIN:PlayerLoadedChar(client, character, lastChar)
 					character:getData("taxi", {
 						taxiID = MakeHashID(15),
 						taxi = NULL,
+						taxiWork = "",
 					})
 			)
 			client:setLocalVar("taxi", 
@@ -21,6 +22,7 @@ function PLUGIN:CharacterPreSave(character)
 					character:getData("taxi", {
 						taxiID = MakeHashID(15),
 						taxi = NULL,
+						taxiWork = "",
 					})
 			)
 			client:setLocalVar("taxi", 
@@ -36,7 +38,7 @@ function PLUGIN:PlayerDisconnected(user)
 
 				if entity && entity != NULL then
 						entity:Remove()
-						user:SetJobInfo("taxi", NULL);
+						user:SetTaxiData("taxi", NULL);
 				end
 				user:ClearTaxiCall(true)
 		end
@@ -50,7 +52,7 @@ netstream.Hook('taxi::Accept', function(client)
 
 		if PLUGIN:CanSpawnTaxi(postion) then
 				local vehicle = simfphys.SpawnVehicleSimple( "simfphys_mafia2_quicksilver_windsor_taxi_pha", postion, angles )
-				client:SetJobInfo("taxi", vehicle);
+				client:SetTaxiData("taxi", vehicle);
 
 				// send character to faction "TAXI workers"
 				local faction = FACTION_TAXI_WORKER
@@ -71,7 +73,7 @@ netstream.Hook('taxi::dissmissal', function(client)
 
 		if entity && entity != NULL then
 				entity:Remove()
-				client:SetJobInfo("taxi", NULL);
+				client:SetTaxiData("taxi", NULL);
 		end
 end);
 
@@ -92,18 +94,34 @@ netstream.Hook('taxi::TakeJob', function(client, id)
 		if !client:WorkingInTaxi() then
 				return;
 		end
-		local job = PLUGIN.taxiPoses[id];
+		if client:TaxiTakenOrder() != "" then
+				client:notify("You can't take new order while doing another.")
+				return;
+		end
+		
+		local job = PLUGIN.taxi[id];
 
-		if job && (job.who && job.who:IsValid()) && !job.take then
-				job.who:notify("Your taxi request is taken. Stay near position and wait, please.")
+		if job && !job.take then
 				job.take = true;
+				client:SetTaxiData("taxiWork", job.id);
 				PLUGIN:SyncTaxiPoses()
-				client:notify("You've taken this order!")
+				client:notify("You took the order with id #"..job.id)
+
+				local users = player.GetAll();
+				local i = #users;
+				while (i > 0) do
+						local user = users[i];
+						if user:GetTaxiData("taxiID") then
+								user:notify("Your taxi is on the way!")
+								return;
+						end
+						i = i - 1;
+				end
 		end
 end);
 
 // TAXI:
-// Нельзя уволиться, пока кто-то есть в машине
+// ~~ Нельзя уволиться, пока кто-то есть в машине; // По идее, если кто-то увольняется, то нужно просто отменять заказ и вешать штраф. 
 // Когда игрок заказывает такси - у него снимается 1$
 // Если игрок ушел с места, то таксист может отменить заказ.
 // Если таксист отменил заказ и не был в радиусе точки, то ему не даются деньги за подачу

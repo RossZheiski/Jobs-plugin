@@ -52,3 +52,14 @@ function PLUGIN:CanSpawnTaxi(vector)
 
 		return true;
 end;
+
+// Player meta;
+local user = FindMetaTable("Player")
+function user:GetTaxiData(index)
+		local data = self:getChar():getData("taxi");
+		return data[index];
+end;
+
+function user:TaxiTakenOrder()
+		return self:GetTaxiData("taxiWork") or ""
+end;

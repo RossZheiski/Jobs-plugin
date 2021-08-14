@@ -3,14 +3,14 @@ local PLUGIN = PLUGIN;
 PLUGIN.taxi = PLUGIN.taxi or {}
 
 function PLUGIN:SortTaxiPoses()
-		local calls = table.Copy(self.taxiPoses);
+		local calls = table.Copy(self.taxi);
 		local buffer = {}
 
 		for k, v in pairs(calls) do
 				buffer[#buffer + 1] = v;
 		end
 
-		self.taxiPoses = buffer;
+		self.taxi = buffer;
 end;
 
 function PLUGIN:SyncTaxiPoses()
@@ -96,7 +96,17 @@ function user:SetTaxiData(index, value)
 		self:setLocalVar("taxi", data);
 end;
 
-function user:GetTaxiData(index)
-		local data = self:getChar():getData("taxi");
-		return data[index];
+function user:CanTaxiDismiss()
+		local taxi = self:GetTaxiData("taxi");
+		local seats = testTaxi:GetPassengerSeats();
+		local i = #seats
+		while (i > 0) do
+			local seat = seats[i];
+			if seat:GetDriver() != NULL then
+					return false;
+			end
+			i = i - 1;
+		end
+
+		return true;
 end;
