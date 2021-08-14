@@ -20,7 +20,7 @@ function PLUGIN:SyncTaxiPoses()
 		while (i > 0) do
 			local client = plys[i];
 			if client:WorkingInTaxi() then
-					client:SyncTaxi()
+					client:SyncTaxi(self.taxi)
 			end
 			i = i - 1;
 		end
@@ -85,6 +85,6 @@ function user:ClearTaxiCall(evenTaken)
 		end
 end;
 
-function user:SyncTaxi()
-		netstream.Start(self, 'taxi::syncTaxiCalls', copy)
+function user:SyncTaxi(poses)
+		netstream.Start(self, 'taxi::syncTaxiCalls', poses)
 end;

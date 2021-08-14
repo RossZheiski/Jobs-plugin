@@ -321,9 +321,9 @@ function PANEL:Populate()
 		self.acceptBtn:SetTextColor(Color(255, 255, 255))
 
 		self.acceptBtn.DoClick = function(btn)
-				if !TAXI.list[self.index].take then
+				if !TAXI_DATA.jobs[self.index].take then
 						netstream.Start('taxi::TakeJob', self.index)
-						TAXI_TAKEN = TAXI_TAKEN + 1;
+						TAXI_DATA.taken = TAXI_DATA.taken + 1;
 						surface.PlaySound("buttons/button17.wav")
 				end
 		end;

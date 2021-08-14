@@ -15,7 +15,7 @@ nut.command.add("taxi", {
 	onRun = function(client)
 			local workingTaxi = client:WorkingInTaxi();
 			if workingTaxi then
-					client:SyncTaxi()
+					client:SyncTaxi(PLUGIN.taxi)
 			end
 
 			netstream.Start(client, 'taxi::taxiCallerIs', workingTaxi)

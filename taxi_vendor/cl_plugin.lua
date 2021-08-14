@@ -1,7 +1,7 @@
 local PLUGIN = PLUGIN;
 
-TAXI_DATA = TAXI_DATA or {
-	list = {},
+TAXI_DATA = {
+	jobs = {},
 	taken = 0,
 	reward = 0
 }
@@ -27,7 +27,7 @@ netstream.Hook('taxi::taxiCallerIs', function(caller)
 end);
 
 netstream.Hook('taxi::syncTaxiCalls', function(data)
-		TAXI_DATA.list = data
+		TAXI_DATA.jobs = data
 
 		if TINT && TINT:IsValid() then TINT:ReloadCalls() end
 end);
