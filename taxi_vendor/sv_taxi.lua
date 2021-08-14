@@ -29,7 +29,7 @@ end;
 // Player meta
 local user = FindMetaTable("Player")
 function user:CanAskTaxi()
-		local entity = self:GetJobInfo("taxi");
+		local entity = self:GetTaxiData("taxi");
 
 		return !entity || entity == NULL;
 end;
@@ -47,7 +47,7 @@ function user:CallTaxi()
 
 		if money < price then return false end;
 
-		local taxiID = self:GetJobInfo("taxiID")
+		local taxiID = self:GetTaxiData("taxiID")
 		if !taxiID then
 				self:SetJobInfo("taxiID", MakeHashID(15));
 		end
@@ -56,7 +56,7 @@ function user:CallTaxi()
 				["position"] = self:GetPos(),
 				["price"] = price,
 				["take"] = false,
-				["id"] = self:GetJobInfo("taxiID")
+				["id"] = self:GetTaxiData("taxiID")
 		}
 
 		PLUGIN:SyncTaxiPoses();
@@ -72,7 +72,7 @@ function user:ClearTaxiCall(evenTaken)
 				local who = PLUGIN.taxi[i].id;
 				local taken = PLUGIN.taxi[i].take
 				
-				if who && who == self:GetJobInfo("taxiID") && (evenTaken || !evenTaken && !taken) then
+				if who && who == self:GetTaxiData("taxiID") && (evenTaken || !evenTaken && !taken) then
 						PLUGIN.taxi[i] = nil;
 						PLUGIN:SortTaxiPoses()
 						PLUGIN:SyncTaxiPoses()
@@ -87,4 +87,16 @@ end;
 
 function user:SyncTaxi(poses)
 		netstream.Start(self, 'taxi::syncTaxiCalls', poses)
+end;
+
+function user:SetTaxiData(index, value)
+		local data = self:getChar():getData("taxi");
+		data[index] = value;
+		self:getChar():setData("taxi", data);
+		self:setLocalVar("taxi", data);
+end;
+
+function user:GetTaxiData(index)
+		local data = self:getChar():getData("taxi");
+		return data[index];
 end;

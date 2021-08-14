@@ -12,9 +12,6 @@ function PLUGIN:PlayerLoadedChar(client, character, lastChar)
 						id = 0,
 						price = 0,
 						name = "",
-						
-						taxiID = MakeHashID(15),
-						taxi = NULL,
 					})
 			)
 			client:setLocalVar("job_info", 
@@ -33,9 +30,6 @@ function PLUGIN:CharacterPreSave(character)
 						id = 0,
 						price = 0,
 						name = "",
-
-						taxiID = MakeHashID(15),
-						taxi = NULL,
 					})
 			)
 			client:setLocalVar("job_info", 
@@ -48,15 +42,6 @@ function PLUGIN:PlayerDisconnected(user)
 		local char = user:getChar();
 		if user:IsValid() && char then
 				user:ClearJob()
-
-				local entity = user:GetJobInfo("taxi");
-
-				if entity && entity != NULL then
-						entity:Remove()
-						user:SetJobInfo("taxi", NULL);
-				end
-
-				user:ClearTaxiCall(true)
 		end
 end;
 

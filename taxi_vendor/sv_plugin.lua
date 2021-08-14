@@ -1,5 +1,47 @@
 local PLUGIN = PLUGIN;
 
+function PLUGIN:PlayerLoadedChar(client, character, lastChar)
+		timer.Simple(0.25, function()
+			character:setData("taxi", 
+					character:getData("taxi", {
+						taxiID = MakeHashID(15),
+						taxi = NULL,
+					})
+			)
+			client:setLocalVar("taxi", 
+					character:getData("taxi")
+			)
+		end);
+end;
+
+function PLUGIN:CharacterPreSave(character)
+		local client = character:getPlayer()
+    if (IsValid(client)) then
+				character:setData("taxi", 
+					character:getData("taxi", {
+						taxiID = MakeHashID(15),
+						taxi = NULL,
+					})
+			)
+			client:setLocalVar("taxi", 
+					character:getData("taxi")
+			)
+		end;
+end;
+
+function PLUGIN:PlayerDisconnected(user)
+		local char = user:getChar();
+		if user:IsValid() && char then
+				local entity = user:GetTaxiData("taxi");
+
+				if entity && entity != NULL then
+						entity:Remove()
+						user:SetJobInfo("taxi", NULL);
+				end
+				user:ClearTaxiCall(true)
+		end
+end;
+
 netstream.Hook('taxi::Accept', function(client)
 		local taxi = TAXI.taxiSpawn;
 		local postion, angles = taxi.position, taxi.angle
@@ -25,7 +67,7 @@ end);
 netstream.Hook('taxi::dissmissal', function(client)
 		if client:CanAskTaxi() then return end;
 
-		local entity = client:GetJobInfo("taxi");
+		local entity = client:GetTaxiData("taxi");
 
 		if entity && entity != NULL then
 				entity:Remove()
