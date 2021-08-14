@@ -18,7 +18,7 @@ end
 
 function PANEL:Populate()
 		local money = LocalPlayer():getChar():getMoney();
-		local price = math.Round(JOBREP.taxiBase + (PLUGIN:GetTaxistsAmount() * JOBREP.taxiBonus), 2)
+		local price = math.Round(TAXI.taxiBase + (PLUGIN:GetTaxistsAmount() * TAXI.taxiBonus), 2)
 		self.title = self:Add("DPanel")
 		self.title:Dock(TOP)
 		self.title:SetTall(sh * 0.050)
@@ -73,7 +73,7 @@ function PANEL:Populate()
 
 				surface.PlaySound("buttons/button24.wav")
 		end;
-		local notify = "If your order will be taken - you'll pay a fee for taxi call in amount of " .. JOBREP.taxiFee .. nut.currency.symbol;
+		local notify = "If your order will be taken - you'll pay a fee for taxi call in amount of " .. TAXI.taxiFee .. nut.currency.symbol;
 
 		local x, y = surface.GetTextSize(notify)
 		local minAmount = y + 5;

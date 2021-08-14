@@ -237,6 +237,8 @@ end;
 
 vgui.Register( "JobSubPanel", PANEL, "DPanel" )
 
+// TAXI panel components:
+
 local PANEL = {}
 
 function PANEL:Init()
@@ -260,8 +262,8 @@ function PANEL:Paint( w, h )
 end;
 
 function PANEL:OnMousePressed()
-		if TAXI_INTERFACE && TAXI_INTERFACE:IsValid() then
-				TAXI_INTERFACE:Close()
+		if TINT && TINT:IsValid() then
+				TINT:Close()
 		end
 end
 
@@ -319,8 +321,9 @@ function PANEL:Populate()
 		self.acceptBtn:SetTextColor(Color(255, 255, 255))
 
 		self.acceptBtn.DoClick = function(btn)
-				if !TAXIJOB[self.index].take then
+				if !TAXI.list[self.index].take then
 						netstream.Start('taxi::TakeJob', self.index)
+						TAXI_TAKEN = TAXI_TAKEN + 1;
 						surface.PlaySound("buttons/button17.wav")
 				end
 		end;

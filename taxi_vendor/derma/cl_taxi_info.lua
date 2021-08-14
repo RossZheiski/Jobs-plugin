@@ -59,7 +59,7 @@ end;
 function PANEL:ReloadCalls()
 		if self.taskGrid then self.taskGrid:Remove() end;
 
-		local i = #TAXIJOB;
+		local i = #TAXI.list;
 
 		if i == 0 then
 				self.nLBL = self.tasksList:Add("DLabel")
@@ -80,7 +80,7 @@ function PANEL:ReloadCalls()
 		self.taskGrid:SetRowHeight( sh * 0.12 )
 
 		while (i > 0) do
-				local id = #TAXIJOB - (i - 1);
+				local id = #TAXI.list - (i - 1);
 
 				local but = vgui.Create( "TaxiJob" )
 				but:SetSize( sw * 0.058, sh * 0.11 )

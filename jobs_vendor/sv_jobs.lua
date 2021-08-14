@@ -1,7 +1,5 @@
 local PLUGIN = PLUGIN;
 
-PLUGIN.taxiPoses = PLUGIN.taxiPoses or {}
-
 function PLUGIN:AddJobPosition(uniqueID, vector, clientName, ent)
 		local id = #self.jobPoses + 1;
 
@@ -66,30 +64,6 @@ end;
 
 function PLUGIN:GetWork(name)
 		return self.jobsList[name]
-end;
-
-function PLUGIN:SortTaxiPoses()
-		local calls = table.Copy(self.taxiPoses);
-		local buffer = {}
-
-		for k, v in pairs(calls) do
-				buffer[#buffer + 1] = v;
-		end
-
-		self.taxiPoses = buffer;
-end;
-
-function PLUGIN:SyncTaxiPoses()
-		local plys = player.GetAll();
-		local i = #plys;
-
-		while (i > 0) do
-			local client = plys[i];
-			if client:WorkingInTaxi() then
-					client:SyncTaxi()
-			end
-			i = i - 1;
-		end
 end;
 
 // Utility check;

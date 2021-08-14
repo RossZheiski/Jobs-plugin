@@ -34,7 +34,7 @@ function PANEL:Populate()
 		self.description:SetTall(sh * 0.38)
 
 		self.lDesc = self.description:Add("DLabel")
-		self.lDesc:SetText(JOBREP.taxiRules)
+		self.lDesc:SetText(TAXI.taxiRules)
 		self.lDesc:Dock(FILL)
 		self.lDesc:SetAutoStretchVertical(true)
 		self.lDesc:SetWrap(true)

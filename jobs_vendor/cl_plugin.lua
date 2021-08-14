@@ -3,20 +3,6 @@ local PLUGIN = PLUGIN;
 ADDJOB_SETTINGS = ADDJOB_SETTINGS or {
 	lastJob = 0
 }
-// I'm giving a little memory space for this param. If player don't became a taxi worker - it don't cause anything.
-TAXIJOB = TAXIJOB or {}
-TAXI_TAKEN = TAXI_TAKEN or 0
-TAXI_EARNED = TAXI_EARNED or 0
-
-
-netstream.Hook('taxi::openInterface', function()
-		if TAXI_INTERFACE && TAXI_INTERFACE:IsValid() then
-				TAXI_INTERFACE:Close()
-		end
-
-		TAXI_INTERFACE = vgui.Create("BecameTaxi")
-		TAXI_INTERFACE:Populate()
-end);
 
 netstream.Hook('jobVendor::openInterface', function()
 		if VENDOR_INTERFACE && VENDOR_INTERFACE:IsValid() then
@@ -60,29 +46,6 @@ netstream.Hook('jobVendor::stopJobTimer', function()
 		end
 end);
 
-netstream.Hook('taxi:dismiss', function()
-		Derma_Query("Do you really want to dismiss?", "Dismiss", "Yes", function()
-				netstream.Start('taxi::dissmissal')
-		end,
-		"No", function() end)
-end);
-
-netstream.Hook('taxi::taxiCallerIs', function(caller)
-		if TAXI_INTERFACE && TAXI_INTERFACE:IsValid() then
-				TAXI_INTERFACE:Close()
-		end
-
-		TAXI_INTERFACE = vgui.Create(!caller && "TaxiCustomer" || "TaxiInfo")
-		TAXI_INTERFACE:Populate()
-end);
-
-netstream.Hook('taxi::syncTaxiCalls', function(data)
-		TAXIJOB = data
-
-		if TAXI_INTERFACE && TAXI_INTERFACE:IsValid() then
-				TAXI_INTERFACE:ReloadCalls()
-		end
-end);
 
 hook.Add( "PreDrawHalos", "jobVendor::searchHalo", function()
 		if HALO_SEARCH then
