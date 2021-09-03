@@ -28,28 +28,28 @@ function PLUGIN:LoadNutFonts(font, genericFont)
 		antialias = true,
 	})
 	// Taxi
-	surface.CreateFont("TaxiTitle", {
-		font = "Consolas",
-		size = ScreenScale(15),
+	surface.CreateFont("TaxiFontHuge", {
+		font = "Dosis",
+		size = ScreenScale(11),
+		weight = 500,
 		scanlines = 1,
 		antialias = true,
 	})
-	surface.CreateFont("TaxiRules", {
-		font = "Constantia",
-		size = ScreenScale(8),
-		scanlines = 1,
-		antialias = true,
-		italic = true
-	})
-	surface.CreateFont("TaxiBtns", {
+	surface.CreateFont("TaxiFontBigger", {
 		font = "Dosis",
 		size = ScreenScale(8),
 		scanlines = 1,
 		antialias = true,
 	})
-	surface.CreateFont("TaxiBtnsLower", {
+	surface.CreateFont("FontSmall", {
 		font = "Dosis",
 		size = ScreenScale(7),
+		scanlines = 1,
+		antialias = true,
+	})
+	surface.CreateFont("TaxiFontSmaller", {
+		font = "Dosis",
+		size = ScreenScale(6),
 		scanlines = 1,
 		antialias = true,
 	})
