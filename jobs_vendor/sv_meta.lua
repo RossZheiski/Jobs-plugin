@@ -66,7 +66,7 @@ function user:ClearJob(notFinished)
 		self:SetJobInfo("addRep", 0);
 
 		if !notFinished && self:IsValid() then
-				self:notify("You've not finished the work that was belonged to you! This will unsatisfy your employer.")
+				self:notify("You've not finished your work! This situation have unsatisfied your employer.")
 				self:SetJobInfo("rep", math.Clamp(self:GetJobInfo("rep") - JOBREP.takeRep or 0, JOBREP.repMin, JOBREP.repMax));
 		end
 end;
@@ -89,15 +89,17 @@ function user:CallThePositionsAmount()
 
 		local i = 1;
 		while i <= #jobPoses do
-				local id = jobPoses[i].uniqueID;
-				if !id then continue; end;
+				local info = jobPoses[i];
+				local id = info.uniqueID;
 				
-				if !positions[id] then
-						positions[id] = 0;
-				end
-				if jobPoses[i] && !jobPoses[i]["state"] then
-						positions[id] = positions[id] + 1;
-				end
+				if id && info.entity:IsValid() then
+					if !positions[id] then
+							positions[id] = 0;
+					end
+					if jobPoses[i] && !jobPoses[i].state then
+							positions[id] = positions[id] + 1;
+					end
+				end;
 				i = i + 1;
 		end
 
