@@ -1,11 +1,13 @@
 local PLUGIN = PLUGIN;
 local sw, sh = ScrW(), ScrH();
 local matGradient = Material("gui/gradient_up")
+local math = math;
+local appr = math.Approach
 
 local PANEL = {}
 
 function PANEL:Init()
-	self:SetFocusTopLevel( true )
+		self:SetFocusTopLevel( true )
     self:MakePopup()
     self:Adaptate(806.4, 600, 0.28, 0.25)
     gui.EnableScreenClicker(true);

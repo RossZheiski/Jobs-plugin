@@ -60,6 +60,7 @@ end;
 
 function ENT:Use(act)
 		if !self:GetIsBroken() then
+				act:notify("This entity is not broken.")
 				return;
 		end
 
