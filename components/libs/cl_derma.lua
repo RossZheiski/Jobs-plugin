@@ -74,10 +74,6 @@ function panelMeta:DrawBlur()
     return Derma_DrawBackgroundBlur( self, self.m_fCreateTime )
 end
 
-function panelMeta:PaintLess()
-    self.Paint = function(s, w, h) end;
-end;
-
 function draw.OutlineRectangle(x, y, w, h, clr, bclr)
     surface.SetDrawColor(clr)
     surface.DrawRect(x, y, w, h)

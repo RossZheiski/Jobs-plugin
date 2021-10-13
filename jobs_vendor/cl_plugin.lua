@@ -70,7 +70,7 @@ hook.Add( "PostDrawTranslucentRenderables", "jobVendor::drawObjText", function()
 		cam.Start2D()
 				draw.SimpleText(text, "JobHighlight", toscreen.x, toscreen.y, color_white, 1 )
 				if timer.Exists(uniqueID) then
-						local time = RFormatTime(timer.RepsLeft(uniqueID))
+						local time = string.FormattedTime( timer.RepsLeft(uniqueID), "%02i:%02i:%02i" )
 						
 						draw.SimpleText(time, "JobHighlight", toscreen.x, toscreen.y+30, color_white, 1 )
 				end;
